@@ -57,7 +57,7 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:100;display:flex;align-items:
   inset: 0;
 
   background-image:
-    url("Ease_drip_imagens/Ease_drip_1.png"),
+    url("Ease_drip_imagens/Ease_drip_3.png"),
     linear-gradient(var(--border) 1px, transparent 1px),
     linear-gradient(90deg, var(--border) 1px, transparent 1px);
 
@@ -113,14 +113,14 @@ section{padding:6rem 4rem}
 .category-panel.active{display:block}
 
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5px;background:var(--border)}
-.product-card{background:var(--bg);cursor:pointer;overflow:hidden;position:relative;aspect-ratio:3/4}
+.product-card{background:var(--bg);cursor:pointer;overflow:hidden;position:relative}
 .product-card:hover .product-img-wrap img{transform:scale(1.06)}
 .product-card:hover .product-overlay{opacity:1}
-.product-img-wrap{width:100%;height:75%;overflow:hidden;background:var(--bg3);display:flex;align-items:center;justify-content:center}
+.product-img-wrap{width:100%;overflow:hidden;background:var(--bg3);display:flex;align-items:center;justify-content:center;aspect-ratio:16/9}
 .product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .product-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;background:var(--bg3)}
 .product-placeholder svg{opacity:.15}
-.product-info{padding:1rem 1.2rem;position:absolute;bottom:0;left:0;right:0;background:var(--bg)}
+.product-info{padding:1rem 1.2rem;background:var(--bg)}
 .product-brand{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
 .product-name{font-family:var(--font-display);font-size:1rem;font-weight:300;margin-bottom:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .product-price{font-size:.65rem;letter-spacing:.1em;color:var(--gray)}
@@ -204,6 +204,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:3rem 4rem
   .cat-tab{padding:.8rem 1.2rem}
 }
 
+@media(max-width:600px) and (orientation:portrait){
+  .products-grid{grid-template-columns:1fr}
+  .product-img-wrap{aspect-ratio:16/9}
+}
+
 /* ── PROMO BANNER ── */
 .promo-banner{background:var(--gold);padding:.6rem 4rem;text-align:center;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--bg);font-weight:600;position:relative;overflow:hidden}
 .promo-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255, 255, 255, 0.507),transparent);animation:shimmer 2.5s infinite}
@@ -227,8 +232,9 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:3rem 4rem
 .brands-strip::before,.brands-strip::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2}
 .brands-strip::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
 .brands-strip::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
-.brands-track{display:flex;gap:4rem;align-items:center;animation:scroll 30s linear infinite;width:max-content}
-.brands-track:hover{animation-play-state:paused}
+.brands{display:flex;gap:4rem;align-items:center;animation:scroll 30s linear infinite;width:max-content}
+.brands:hover{animation-play-state:paused}
+.brands img{width:120px;height:60px;object-fit:contain;}
 @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .brand-name{font-family:var(--font-display);font-size:1.1rem;font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:var(--border);transition:color .3s;white-space:nowrap;cursor:default}
 .brand-name:hover{color:var(--gold)}
@@ -346,7 +352,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:3rem 4rem
 
 <!-- BRANDS STRIP -->
 <div class="brands-strip">
-  <div class="brands-track" id="brandsTrack"></div>
+  <div class="brands" id="brandsTrack"></div>
 </div>
 
 <!-- STATS -->
@@ -743,11 +749,34 @@ function sendWhatsApp() {
 }
 
 // ── BRANDS STRIP ──
-const brandNames = ['Nike','Adidas','Gucci','Louis Vuitton','Prada','Zara','Levi\'s','Chanel','Dior','Versace','Balenciaga','Armani','Burberry','Puma','Calvin Klein','Hermès','Mango','H&M','Diesel','Vans'];
+const brands = [
+  { name: "Nike", logo: "images/brands/nike.png" },
+  { name: "Adidas", logo: "images/brands/adidas.png" },
+  { name: "Gucci", logo: "images/brands/gucci.png" },
+  { name: "Louis Vuitton", logo: "images/brands/louis-vuitton.png" },
+  { name: "Prada", logo: "images/brands/prada.png" },
+  { name: "Zara", logo: "images/brands/zara.png" },
+  { name: "Levi's", logo: "images/brands/levis.png" },
+  { name: "Chanel", logo: "images/brands/chanel.png" },
+  { name: "Dior", logo: "images/brands/dior.png" },
+  { name: "Versace", logo: "images/brands/versace.png" },
+  { name: "Balenciaga", logo: "images/brands/balenciaga.png" },
+  { name: "Armani", logo: "images/brands/armani.png" },
+  { name: "Burberry", logo: "images/brands/burberry.png" },
+  { name: "Puma", logo: "images/brands/puma.png" },
+  { name: "Calvin Klein", logo: "images/brands/calvin-klein.png" },
+  { name: "Hermès", logo: "images/brands/hermes.png" },
+  { name: "Mango", logo: "images/brands/mango.png" },
+  { name: "H&M", logo: "images/brands/h-and-m.png" },
+  { name: "Diesel", logo: "images/brands/diesel.png" },
+  { name: "Vans", logo: "images/brands/vans.png" }
+];
 function buildBrands() {
   const track = document.getElementById('brandsTrack');
-  const doubled = [...brandNames, ...brandNames];
-  track.innerHTML = doubled.map(b => `<span class="brand-name">${b}</span>`).join('<span class="brand-name" style="color:#1a1a1a">◆</span>');
+  const doubled = [...brands, ...brands];
+  track.innerHTML = doubled.map(brand => `
+    <img class="brand-logo" src="${brand.logo}" alt="${brand.name}" title="${brand.name}">
+  `).join('');
 }
 
 // ── TOAST ──
